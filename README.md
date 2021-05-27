@@ -4,3 +4,4 @@ nomadcoffee Backend.
 
 - [x] Backend Setup
 - [x] User Model
+- [x] User Profile
