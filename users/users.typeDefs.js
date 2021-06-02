@@ -15,5 +15,6 @@ export default gql`
     # computed fields
     followers(lastId: Int): [User] 
     following(lastId: Int): [User]
+    isMe: Boolean!
   }
 `

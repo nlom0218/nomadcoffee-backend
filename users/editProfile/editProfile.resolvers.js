@@ -1,7 +1,7 @@
 import { protectedResolver } from "../users.utils";
 import bcrypt from "bcrypt"
 import client from "../../client";
-import { createWriteStream, write } from "fs"
+import { uploadPhoto } from "../../shared/shared";
 
 export default {
   Mutation: {
@@ -11,12 +11,7 @@ export default {
           // change avatarURL
           let newAvatarURL = null
           if (avatarURL) {
-            const { filename, createReadStream } = await avatarURL
-            const newFilename = `${loggedInUser.id}-${Date.now()}-${filename}`
-            const readStream = createReadStream()
-            const writeStream = createWriteStream(process.cwd() + "/uploads/" + newFilename)
-            readStream.pipe(writeStream)
-            newAvatarURL = `http://localhost:4000/static/${newFilename}`
+            newAvatarURL = await uploadPhoto(avatarURL, loggedInUser)
           }
 
           // change password
