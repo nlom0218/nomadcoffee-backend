@@ -6,4 +6,4 @@ nomadcoffee Backend.
 - [x] User Model
 - [x] User Profile
 - [x] Follow Me!
-- [ ] Models & Resolvers (CoffeShopPhoto, CoffeeShop, Category)
+- [x] Models & Resolvers (CoffeShopPhoto, CoffeeShop, Category)
