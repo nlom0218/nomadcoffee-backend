@@ -2,14 +2,22 @@ import client from "../../client"
 
 export default {
   Query: {
-    seeCoffeeShops: (_, { lastId }) =>
-      client.coffeeShop.findMany({
-        take: 3,
-        skip: lastId ? 1 : 0,
-        ...(lastId && { cursor: { id: lastId } }),
+    seeCoffeeShops: async (_, { page }) => {
+      const shops = await client.coffeeShop.findMany({
+        take: 6,
+        skip: page * 6 - 6,
         include: {
           photos: true
+        },
+        orderBy: {
+          createdAt: "desc"
         }
       })
+      const totalShops = await client.coffeeShop.count()
+      return {
+        shops,
+        totalShops
+      }
+    }
   }
 }

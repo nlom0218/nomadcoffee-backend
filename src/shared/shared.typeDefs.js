@@ -5,5 +5,6 @@ export default gql`
     ok: Boolean!
     token: String
     error: String
+    info: Int
   }
 `

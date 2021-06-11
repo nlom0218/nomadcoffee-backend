@@ -1,11 +1,12 @@
 import client from "../../client";
-import { uploadPhoto } from "../../shared/shared";
+import { uploadToS3 } from "../../shared/shared";
 import { protectedResolver } from "../../users/users.utils";
 
 export default {
   Mutation: {
     uploadCoffeeShopPhoto: protectedResolver(
       async (_, { coffeeShopId, photo }, { loggedInUser }) => {
+        console.log(photo);
         const coffeeShop = await client.coffeeShop.findUnique({
           where: { id: coffeeShopId },
           select: { userId: true }
@@ -21,7 +22,7 @@ export default {
             error: "해당 커피숍 사진 업로드 권한이 없습니다."
           }
         }
-        const coffeeShopPhotoURL = await uploadPhoto(photo, loggedInUser)
+        const coffeeShopPhotoURL = await uploadToS3(photo, loggedInUser, "coffeeShop")
 
         await client.coffeeShop.update({
           where: { id: coffeeShopId },

@@ -2,12 +2,16 @@ import client from "../client"
 
 export default {
   CoffeeShop: {
-    isMine: ({ id }, _, { loggedInUser }) => {
+    isMine: async ({ id }, _, { loggedInUser }) => {
+      const coffeeShop = await client.coffeeShop.findUnique({
+        where: { id }
+      })
+
       if (!loggedInUser) {
         return false
       }
-      return id === loggedInUser.id
-    }
+      return coffeeShop.userId === loggedInUser.id
+    },
   },
   Category: {
     totalShops: ({ id }) => client.coffeeShop.count({

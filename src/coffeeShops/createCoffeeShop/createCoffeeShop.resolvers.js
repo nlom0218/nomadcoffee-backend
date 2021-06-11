@@ -1,12 +1,12 @@
 import client from "../../client";
-import { uploadPhoto } from "../../shared/shared";
+import { uploadToS3 } from "../../shared/shared";
 import { protectedResolver } from "../../users/users.utils";
 import { processCategories } from "../coffeeShops.utils";
 
 export default {
   Mutation: {
     createCoffeeShop: protectedResolver(
-      async (_, { name, categories, photo }, { loggedInUser }) => {
+      async (_, { name, categories }, { loggedInUser }) => {
         try {
           // check coffeeShop name(unique)
           const ok = await client.coffeeShop.findUnique({ where: { name } })
@@ -24,13 +24,13 @@ export default {
           }
 
           // uploads main photo
-          const coffeeShopPhotoURL = await uploadPhoto(photo, loggedInUser)
+          // const coffeeShopPhotoURL = await uploadToS3(photo, loggedInUser, "coffeeShop")
 
-          await client.coffeeShop.create({
+          const coffeeShop = await client.coffeeShop.create({
             data: {
               name,
               user: { connect: { id: loggedInUser.id } },
-              photos: { create: { url: coffeeShopPhotoURL } },
+              // photos: { create: { url: coffeeShopPhotoURL } },
               ...(categories && {
                 categories:
                 {
@@ -40,7 +40,8 @@ export default {
             }
           })
           return {
-            ok: true
+            ok: true,
+            info: coffeeShop.id
           }
         } catch (error) {
           return error

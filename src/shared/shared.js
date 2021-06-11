@@ -1,10 +1,23 @@
-import { createWriteStream } from "fs"
+import AWS from "aws-sdk"
 
-export const uploadPhoto = async (file, loggedInUser) => {
+AWS.config.update({
+  credentials: {
+    accessKeyId: process.env.AWS_KEY,
+    secretAccessKey: process.env.AWS_SECRET
+  }
+})
+
+export const uploadToS3 = async (file, loggedInUser, folderName) => {
   const { filename, createReadStream } = await file
-  const newFilename = `${loggedInUser.id}-${Date.now()}-${filename}`
   const readStream = createReadStream()
-  const writeStream = createWriteStream(process.cwd() + "/uploads/" + newFilename)
-  readStream.pipe(writeStream)
-  return `http://localhost:4000/static/${newFilename}`
+  const objectName = `${folderName}/${loggedInUser.id}-${Date.now()}-${filename}`
+  const { Location } = await new AWS.S3()
+    .upload({
+      Bucket: "khd-nomadcoffee-uploads",
+      Key: objectName,
+      ACL: "public-read",
+      Body: readStream
+    })
+    .promise()
+  return Location
 }

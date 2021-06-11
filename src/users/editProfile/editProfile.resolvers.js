@@ -1,7 +1,7 @@
 import { protectedResolver } from "../users.utils";
 import bcrypt from "bcrypt"
 import client from "../../client";
-import { uploadPhoto } from "../../shared/shared";
+import { uploadToS3 } from "../../shared/shared";
 
 export default {
   Mutation: {
@@ -11,7 +11,7 @@ export default {
           // change avatarURL
           let newAvatarURL = null
           if (avatarURL) {
-            newAvatarURL = await uploadPhoto(avatarURL, loggedInUser)
+            newAvatarURL = await uploadToS3(avatarURL, loggedInUser, "user")
           }
 
           // change password
