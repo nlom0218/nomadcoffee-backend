@@ -21,6 +21,13 @@ export default {
               error: "해당 커피숍 수정 권한이 없습니다."
             }
           }
+          const ok = await client.coffeeShop.findUnique({ where: { name } })
+          if (ok) {
+            return {
+              ok: false,
+              error: "해당 이름의 카페가 존재합니다."
+            }
+          }
 
           await client.coffeeShop.update({
             where: { id: coffeeShopId },

@@ -44,6 +44,7 @@ model CoffeeShopPhoto {
   url          String     @unique
   shop         CoffeeShop @relation(fields: [coffeeShopId], references: [id])
   coffeeShopId Int
+  rep          Boolean    @default(false)
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
 }

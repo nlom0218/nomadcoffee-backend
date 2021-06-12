@@ -19,6 +19,7 @@ export default gql`
     id: Int!
     url: String!
     shop: CoffeeShop
+    rep: Boolean!
     createdAt: String!
     updatedAt: String!
   }
