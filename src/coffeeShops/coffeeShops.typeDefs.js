@@ -11,9 +11,12 @@ export default gql`
     categories: [Category]
     createdAt: String!
     updatedAt: String!
+    shopLike: [ShopLike]
 
     # computed fields
     isMine: Boolean!
+    isLiked: Boolean!
+    likes: Int!
   }
   type CoffeeShopPhoto {
     id: Int!
@@ -31,5 +34,12 @@ export default gql`
 
     # computed fields
     totalShops: Int
+  }
+  type ShopLike {
+    id: Int!
+    shop: CoffeeShop!
+    user: User!
+    createdAt: String!
+    updatedAt: String!
   }
 `

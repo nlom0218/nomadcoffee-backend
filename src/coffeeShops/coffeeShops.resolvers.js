@@ -12,6 +12,27 @@ export default {
       }
       return coffeeShop.userId === loggedInUser.id
     },
+    isLiked: async ({ id }, _, { loggedInUser }) => {
+      if (!loggedInUser) {
+        return false
+      }
+      const shopLike = await client.shopLike.findFirst({
+        where: {
+          AND: [
+            { coffeeShopId: id },
+            { userId: loggedInUser.id }
+          ]
+        }
+      })
+      if (shopLike) {
+        return true
+      } else {
+        return false
+      }
+    },
+    likes: async ({ id }) => client.shopLike.count({
+      where: { coffeeShopId: id }
+    })
   },
   Category: {
     totalShops: ({ id }) => client.coffeeShop.count({
