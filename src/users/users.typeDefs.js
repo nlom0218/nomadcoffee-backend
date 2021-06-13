@@ -16,5 +16,9 @@ export default gql`
     followers(lastId: Int): [User] 
     following(lastId: Int): [User]
     isMe: Boolean!
+    isFollow: Boolean!
+    totalCafe: Int!
+    totalFollow: Int!
+    totalFollowing: Int!
   }
 `
