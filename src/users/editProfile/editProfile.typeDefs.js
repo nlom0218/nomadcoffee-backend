@@ -7,7 +7,6 @@ export default gql`
       email: String
       name: String
       location: String
-      avatarURL: Upload
       githubUsername: String
       password: String
     ): mutationResult!
