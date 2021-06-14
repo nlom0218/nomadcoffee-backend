@@ -6,7 +6,6 @@ export default gql`
       username: String
       email: String
       name: String
-      location: String
       githubUsername: String
       password: String
     ): mutationResult!

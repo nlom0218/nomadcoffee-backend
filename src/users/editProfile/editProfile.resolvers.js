@@ -1,19 +1,12 @@
 import { protectedResolver } from "../users.utils";
 import bcrypt from "bcrypt"
 import client from "../../client";
-import { uploadToS3 } from "../../shared/shared";
 
 export default {
   Mutation: {
     editProfile: protectedResolver(
-      async (_, { username, email, name, location, avatarURL, githubUsername, password: newPassword }, { loggedInUser }) => {
+      async (_, { username, email, name, githubUsername, password: newPassword }, { loggedInUser }) => {
         try {
-          // change avatarURL
-          let newAvatarURL = null
-          if (avatarURL) {
-            newAvatarURL = await uploadToS3(avatarURL, loggedInUser, "user")
-          }
-
           // change password
           let uglyPassword = null
           if (newPassword) {
@@ -24,13 +17,11 @@ export default {
           const updatedUser = await client.user.update({
             where: { id: loggedInUser.id },
             data: {
-              username,
-              email,
-              name,
-              location,
-              githubUsername,
-              ...(uglyPassword && { password: uglyPassword }),
-              ...(newAvatarURL && { avatarURL: newAvatarURL })
+              ...(username !== "" && { username }),
+              ...(email !== "" && { email }),
+              ...(name !== "" && { name }),
+              ...(githubUsername !== "" && { githubUsername }),
+              ...(uglyPassword && { password: uglyPassword })
             }
           })
 
