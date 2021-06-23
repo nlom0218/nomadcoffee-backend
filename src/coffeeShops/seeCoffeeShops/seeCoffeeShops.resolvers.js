@@ -7,7 +7,8 @@ export default {
         take: 6,
         skip: page * 6 - 6,
         include: {
-          photos: true
+          photos: true,
+          user: true
         },
         orderBy: {
           createdAt: "desc"

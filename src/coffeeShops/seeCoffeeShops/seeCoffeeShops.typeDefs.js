@@ -8,5 +8,6 @@ export default gql`
 
   type Query {
     seeCoffeeShops(page: Int!): seeCoffeeShopsResult!
+    seeCoffeeSHopsNative(offset: Int!): [CoffeeShop]
   }
 `
