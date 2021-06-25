@@ -8,5 +8,6 @@ export default gql`
 
   type Query {
     searchCategory(category: String!, page: Int!): SearchCategoryResult
+    searchCategoryNative(category: String!): [CoffeeShop]
   }
 `
