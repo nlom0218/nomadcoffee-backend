@@ -12,3 +12,12 @@ export const processCategories = (categories) => {
     }
   })
 }
+
+export const removeCategories = (categories) => {
+  const categoriesArr = categories.split(",")
+  return categoriesArr.map(item => {
+    return {
+      name: item
+    }
+  })
+}
