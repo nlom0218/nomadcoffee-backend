@@ -2,10 +2,14 @@ import client from "../../client";
 
 export default {
   Query: {
-    seeCategories: (_, { lastId }) => client.category.findMany({
-      take: 3,
-      skip: lastId ? 1 : 0,
-      ...(lastId && { cursor: { id: lastId } })
+    seeCategories: (_, { shopId }) => client.category.findMany({
+      where: {
+        shops: {
+          some: {
+            id: shopId
+          }
+        }
+      }
     })
   }
 }
